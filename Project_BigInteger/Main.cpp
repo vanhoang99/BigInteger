@@ -1,9 +1,9 @@
-#include<iostream>
+#include"QInt_16bytes.h"
 using namespace std;
 
 int main()
 {
-
-	system("pause");
+	cout << sizeof(bool);
+	cin;
 	return 0;
 }

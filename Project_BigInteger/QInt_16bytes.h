@@ -5,6 +5,7 @@ using namespace std;
 
 #define asd
 /*ccc
+
 ccccc
 */
 class QInt {
