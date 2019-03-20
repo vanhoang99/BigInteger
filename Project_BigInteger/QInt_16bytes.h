@@ -6,6 +6,7 @@ using namespace std;
 #define asd
 /*ccc
 ccccc
+chay bo nao
 */
 class QInt {
 private:
