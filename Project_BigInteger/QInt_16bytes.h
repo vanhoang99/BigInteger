@@ -3,9 +3,13 @@
 #include<iostream>
 using namespace std;
 
+#define asd
+/*
+
+*/
 class QInt {
 private:
-	bool Data[128];
+	bool Data[128];//
 public:
 	QInt(){}
 };
