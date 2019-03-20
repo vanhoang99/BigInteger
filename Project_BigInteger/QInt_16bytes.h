@@ -7,6 +7,7 @@ using namespace std;
 /*ccc
 ccccc
 chay bo nao
+có gái không ae
 */
 class QInt {
 private:
