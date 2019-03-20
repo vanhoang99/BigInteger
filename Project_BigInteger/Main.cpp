@@ -3,7 +3,7 @@ using namespace std;
 
 int main()
 {
-
-	system("pause");
-	return 0;
+	bool a = 1;
+	cout << "\n kich thuoc kieu bool: " << sizeof(a);
+	cin.get(); cin.get();
 }
