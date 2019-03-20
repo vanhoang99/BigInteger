@@ -19,7 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CConvert.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="QInt_16bytes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CConvert.h" />
+    <ClInclude Include="QInt_16bytes.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{65462F1D-7BDF-4E16-A73B-F39B105C1D9A}</ProjectGuid>
