@@ -15,7 +15,7 @@ string CConvert::strBinToHex(string strBin) {
 	}
 	while (len % 4 != 0)//điều chỉnh chuỗi thành những khối 4 bit
 	{
-		strBin = '0' + strBin;
+		strBin = '0' + strBin; 
 		len++;
 	}
 	string strHex;//Chuỗi hexa chứa kết quả
@@ -39,7 +39,7 @@ string CConvert::strBinToHex(string strBin) {
 				}
 			}
 		}
-		strBin.erase(strBin.begin(), strBin.begin() + 3);//Xóa khối 4 bit đầu trong chuỗi Binary đã tính toán
+		strBin.erase(strBin.begin(), strBin.begin() + 4);//Xóa khối 4 bit đầu trong chuỗi Binary đã tính toán
 		strHex = strHex + tabHex[Temp];//Chuyển giá trị tính được thành hexa và thêm vào
 	}
 	return strHex;
