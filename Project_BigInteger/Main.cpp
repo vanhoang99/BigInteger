@@ -16,7 +16,7 @@ int main()
 	QInt data("0000011110001");
 	cout << sizeof(bitset<126>) << endl;
 	//cout << data.NOT().ToString() << endl;
-	//cout << CConvert::strBinTo2Complement("1111111110000000000") << endl;
+	cout << CConvert::strBinTo2Complement("1111111110000000000") << endl;
 
 	system("pause");
 	return 0;

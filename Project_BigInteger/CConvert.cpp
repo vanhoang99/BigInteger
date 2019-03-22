@@ -145,10 +145,7 @@ string CConvert::strDecToBin(string strDec)
 	}
 	if (Nagative)
 	{
-		QInt qNum(strResult);
-		qNum = qNum.NOT();
-		qNum = qNum + QInt("1");
-		strResult = qNum.ToString();
+		strResult = CConvert::strBinTo2Complement(strResult);
 	}
 	CConvert::DelBit0(strResult);
 	return strResult;
@@ -181,25 +178,32 @@ string CConvert::strBinToDec(string strBin) {
 }
 
 string CConvert::strBinTo2Complement(string str_src) {
-	int len = str_src.length();
+	string strResult = "";
+	QInt qNum(str_src);
+	qNum = qNum.NOT();
+	qNum = qNum + QInt("1");
+	strResult = qNum.ToString();
+	/*int len = str_src.length();
 	string strResult = "";
 	for (int i = 0; i < len; i++)
 	{
-		if (str_src[i] == '1')
-		{
-			strResult = strResult + "0";
-		}
-		else
-		{
-			strResult = strResult + "1";
-		}
+	if (str_src[i]=='1')
+	{
+	strResult = strResult + "0";
+	}
+	else
+	{
+	strResult = strResult + "1";
+	}
 	}
 	while (len<_INT_128BIT)
 	{
-		strResult = "1" + strResult;
+	strResult = '1' + strResult;
 	}
+	cout <<strResult<< endl;
 	QInt qint(strResult);
-
+	qint = qint + QInt("1");
+	return qint.ToString();*/
 	return strResult;
 }
 
