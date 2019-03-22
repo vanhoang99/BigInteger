@@ -1,13 +1,9 @@
 #include"QInt_16bytes.h"
-#include <bitset>
 using namespace std;
 
 int main()
 {
 
-
-	cin.get();
-	cin.get();
+	system("pause");
 	return 0;
-
 }
