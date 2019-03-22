@@ -27,13 +27,13 @@ string CConvert::strBinToHex(string strBin) {
 		for (int j = 0; j <= 3; j++)
 		{
 
-			if (strBin[j] == '1')//Bằng 1 thì tính giá trị ở dạng thập phân tương ứng
-			{
-				Temp += 1 << (3 - j);//Dịch phải 3-j tức là 2^(3-j)
+			if (strBin[j]=='1')//Bằng 1 thì tính giá trị ở dạng thập phân tương ứng
+			{ 
+				Temp += 1 << (3-j);//Dịch phải 3-j tức là 2^(3-j)
 			}
 			else
 			{
-				if (strBin[j] != '0')//Nếu khác 0 tức chuỗi chứa nhưng ký tự khác 0 và 1 nên không hợp lệ, trả về NULL
+				if (strBin[j]!='0')//Nếu khác 0 tức chuỗi chứa nhưng ký tự khác 0 và 1 nên không hợp lệ, trả về NULL
 				{
 					return NULL;
 				}
@@ -125,7 +125,7 @@ string CConvert::strDecToBin(string strDec)
 	string strResult = "";
 	//int len = strDec.length();
 	bool Nagative = false;
-	if (strDec[0] == '-')
+	if (strDec[0]=='-')
 	{
 		Nagative = true;
 		strDec.erase(strDec.begin());
@@ -141,11 +141,11 @@ string CConvert::strDecToBin(string strDec)
 			strResult = "0" + strResult;
 		}
 		strDec = _Div2_StrDec(strDec);
-
+		
 	}
 	if (Nagative)
 	{
-		strResult = CConvert::strBinTo2Complement(strResult);
+		strResult= CConvert::strBinTo2Complement(strResult);
 	}
 	CConvert::DelBit0(strResult);
 	return strResult;
@@ -154,13 +154,13 @@ string CConvert::strDecToBin(string strDec)
 //Hàm chia 2 số thập phân ở dạng chuỗi,trả về chuỗi kết quả số nguyên làm tròn xuống
 string _Div2_StrDec(string str_src)
 {
-	if (str_src == "0" || str_src == "1")
+	if (str_src == "0"||str_src=="1")
 	{
 		return "0";
 	}
 	int len = str_src.length();
 	int iTemp = 0;
-	string strResult = "";
+	string strResult="";
 	for (int i = 0; i < len; i++)
 	{
 		iTemp = (iTemp * 10) + str_src[i] - '0';
@@ -177,7 +177,7 @@ string CConvert::strBinToDec(string strBin) {
 	return NULL;
 }
 
-string CConvert::strBinTo2Complement(string str_src) {
+string CConvert::strBinTo2Complement(string str_src){
 	string strResult = "";
 	QInt qNum(str_src);
 	qNum = qNum.NOT();
@@ -187,18 +187,18 @@ string CConvert::strBinTo2Complement(string str_src) {
 	string strResult = "";
 	for (int i = 0; i < len; i++)
 	{
-	if (str_src[i]=='1')
-	{
-	strResult = strResult + "0";
-	}
-	else
-	{
-	strResult = strResult + "1";
-	}
+		if (str_src[i]=='1')
+		{
+			strResult = strResult + "0";
+		}
+		else
+		{
+			strResult = strResult + "1";
+		}
 	}
 	while (len<_INT_128BIT)
 	{
-	strResult = '1' + strResult;
+		strResult = '1' + strResult;
 	}
 	cout <<strResult<< endl;
 	QInt qint(strResult);
@@ -209,14 +209,14 @@ string CConvert::strBinTo2Complement(string str_src) {
 
 
 //Hàm Xóa Bit 0 ở đầu chuỗi
-void CConvert::DelBit0(string &strSrc) {
+void CConvert::DelBit0(string &strSrc){
 	while (strSrc[0] == '0')//Xóa nhưng bit 0 ở đầu
 	{
 		strSrc.erase(strSrc.begin());
 	}
 }
 //Đảo ngược chuỗi string truyền vào
-void CConvert::Reserve_Str(string &str_Src) {
+void CConvert::Reserve_Str(string &str_Src){
 	string strTemp = str_Src;
 	int len = strTemp.length();
 	for (int i = 0; i < len; i++)
