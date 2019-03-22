@@ -1,8 +1,9 @@
 ﻿#ifndef __QInt_16bytes_H__
+#define __QInt_16bytes_H__
 
-#include<iostream>
-#include<bitset>
-#include<string>
+#include <iostream>
+#include <bitset>
+#include <string>
 using namespace std;
 
 #define _INT_128BIT 128

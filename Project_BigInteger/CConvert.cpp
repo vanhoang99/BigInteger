@@ -9,8 +9,9 @@ Kết quả trả về: chuỗi ký tự thập lục phân (string)
 */
 string CConvert::strBinToHex(string strBin) {
 	int len = strBin.length();//Độ dài của chuỗi
-	if (len>_MAXBIT)//Định dạnh đầu vào không hợp lệ
+	if (len>_MAXBIT)//Định dạng đầu vào không hợp lệ
 	{
+		
 		return NULL;
 	}
 	while (len % 4 != 0)//điều chỉnh chuỗi thành những khối 4 bit
@@ -35,7 +36,7 @@ string CConvert::strBinToHex(string strBin) {
 			{
 				if (strBin[j] != '0')//Nếu khác 0 tức chuỗi chứa nhưng ký tự khác 0 và 1 nên không hợp lệ, trả về NULL
 				{
-					return NULL;
+					return ;
 				}
 			}
 		}

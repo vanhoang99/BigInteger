@@ -1,9 +1,13 @@
 #include"QInt_16bytes.h"
+#include "CConvert.h"
+
 using namespace std;
 
 int main()
 {
 
-	system("pause");
-	return 0;
+
+
+	cin.get();
+	//return 0;
 }
