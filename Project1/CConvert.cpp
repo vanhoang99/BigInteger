@@ -224,3 +224,46 @@ void CConvert::Reserve_Str(string &str_Src){
 		str_Src[i] = strTemp[len - 1 - i];
 	}
 }
+
+string _Sum_strDec(string strDec1, string strDec2) {
+
+	string strResult = "";//chuỗi chứa kết quả
+	int len_max = strDec1.length();//khởi tạo độ dài chuỗi lớn nhất tạm thời bằng độ dài chuỗi 1
+	string strTemp;//
+	//Tìm độ dài lớn nhất trong 2 chuỗi và thêm số 0 vào đầu chuỗi để 2 chuỗi có độ dài bằng nhau tiện tính toán
+	if (len_max>=strDec2.length())
+	{
+		strDec2 = strTemp.assign(len_max - strDec2.length(), '0')+ strDec2;
+	}
+	else
+	{
+		len_max = strDec2.length();
+		strDec1 = strTemp.assign(len_max - strDec1.length(), '0') + strDec1;
+	}
+	//Biến tạm chứa số dư khi cộng
+	int iTemp=0;
+	//Đảo 2 chuỗi số để tiện tính toán
+	CConvert::Reserve_Str(strDec1);
+	CConvert::Reserve_Str(strDec2);
+	//thực hiện cộng từng hàng đơn vị từ nhỏ đến lớn
+	for (int i = 0; i < len_max; i++)
+	{
+		iTemp = (strDec1[i]-'0') + (strDec2[i]-'0') + iTemp;
+		//2 trường hợp khi cộng 
+		if (iTemp<=9)
+		{
+			strResult = (char)(iTemp + '0') + strResult;
+			iTemp = 0;//không nợ
+		}
+		else
+		{
+			strResult = (char)((iTemp % 10) + '0') + strResult;
+			iTemp = 1;//Nợ 1
+		}
+	}
+	if (iTemp==1)//Nếu vẫn còn nợ 1 thì cộng thêm vào đâu chuỗi kết quả
+	{
+		strResult = '1' + strResult;
+	}
+	return strResult;
+}

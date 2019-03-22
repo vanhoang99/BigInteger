@@ -15,12 +15,13 @@ public:
 	//Chuyển đổi thập phân sang nhị phân
 	static string strDecToBin(string strDec);
 	static string strBinToDec(string strBin);
-
+	
 	static string strBinTo2Complement(string str_src);
 
 	static void DelBit0(string &strSrc);
 	static void Reserve_Str(string &str_Src);
 };
 string _Div2_StrDec(string str_src);
+string _Sum_strDec(string strDec1, string strDec2);
 
 #endif // !__CConvert_H__
