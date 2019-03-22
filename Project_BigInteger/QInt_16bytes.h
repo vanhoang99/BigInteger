@@ -5,13 +5,14 @@ using namespace std;
 
 #define asd
 /*ccc
+
 ccccc
 chay bo nao
 có gái không ae
 */
 class QInt {
 private:
-	bool Data[128];//
+	__int64 arrBits[2];//
 public:
 	QInt(){}
 };
