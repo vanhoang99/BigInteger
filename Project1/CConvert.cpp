@@ -172,12 +172,35 @@ string _Div2_StrDec(string str_src)
 }
 
 string CConvert::strBinToDec(string strBin) {
-
-
-	return NULL;
+	bool Nagative = false;
+	int len = strBin.length();
+	string strResult = "0";
+	;	if ((strBin[0] == '1') && (len == _INT_128BIT))
+	{
+		Nagative = true;
+		strBin = CConvert::strBinTo2Complement(strBin);
+		len = strBin.length();
+	}
+	for (int i = 0; i < len; i++)
+	{
+		if (strBin[i] == '1')
+		{
+			strResult = _Sum_strDec(strResult, _2Expn_K(len - 1 - i));
+		}
+	}
+	if (Nagative)
+	{
+		strResult = "-" + strResult;
+	}
+	return strResult;
 }
 
+//Chuyễn chuỗi nhị phân sang dạng bù 2
 string CConvert::strBinTo2Complement(string str_src){
+	if (str_src.length()>128)
+	{
+		return NULL;
+	}
 	string strResult = "";
 	QInt qNum(str_src);
 	qNum = qNum.NOT();
@@ -264,6 +287,16 @@ string _Sum_strDec(string strDec1, string strDec2) {
 	if (iTemp==1)//Nếu vẫn còn nợ 1 thì cộng thêm vào đâu chuỗi kết quả
 	{
 		strResult = '1' + strResult;
+	}
+	return strResult;
+}
+
+//Hàm tính và trả về chuỗi kết quả của 2 lũy thừa k
+string _2Expn_K(int k) {
+	string strResult = "1";
+	for (int i = 0; i < k; i++)
+	{
+		strResult = _Sum_strDec(strResult, strResult);
 	}
 	return strResult;
 }

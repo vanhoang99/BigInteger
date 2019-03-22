@@ -6,7 +6,8 @@ using namespace std;
 
 int main()
 {
-	cout << _Sum_strDec("9454568645686787", "145678678678678");
+	cout << CConvert::strDecToBin("123") << endl;
+	cout << CConvert::strBinToDec(CConvert::strDecToBin("-12345678999999999999999999")) << endl;
 	system("pause");
 	return 0;
 }
