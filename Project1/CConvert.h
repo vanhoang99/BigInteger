@@ -16,6 +16,9 @@ public:
 	static string strDecToBin(string strDec);
 	static string strBinToDec(string strBin);
 	
+	//Chuyển dổi thâp phân sang thập lục phân và ngược lại
+	static string strDecToHex(string strDec);
+	static string strHexToDex(string strHex);
 	//Chuyển chuỗi bit thường sang chuỗi bit bù 2
 	//Nếu truyền vào dãy bit của số 12 thì sẽ trả về chuỗi bit biểu diễn số -12
 	static string strBinTo2Complement(string str_src);

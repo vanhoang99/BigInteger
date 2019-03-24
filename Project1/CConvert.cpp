@@ -152,6 +152,17 @@ string CConvert::strDecToBin(string strDec)
 	return strResult;
 }
 
+
+string CConvert::strDecToHex(string strDec)
+{
+	return strBinToHex(strDecToBin(strDec));
+}
+
+string CConvert::strHexToDex(string strHex)
+{
+	return strBinToDec(strHexToBin(strHex));
+}
+
 //Hàm chia 2 số thập phân ở dạng chuỗi,trả về chuỗi kết quả số nguyên làm tròn xuống
 string _Div2_StrDec(string str_src)
 {
