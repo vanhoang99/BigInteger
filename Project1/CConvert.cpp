@@ -279,6 +279,7 @@ string _Sum_strDec(string strDec1, string strDec2) {
 	int iTemp=0;
 	//Đảo 2 chuỗi số để tiện tính toán
 	CConvert::Reserve_Str(strDec1);
+
 	CConvert::Reserve_Str(strDec2);
 	//thực hiện cộng từng hàng đơn vị từ nhỏ đến lớn
 	for (int i = 0; i < len_max; i++)
