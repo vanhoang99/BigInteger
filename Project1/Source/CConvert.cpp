@@ -12,7 +12,7 @@ string CConvert::strBinToHex(string strBin) {
 	if (len>_MAXBIT)//Định dạng đầu vào không hợp lệ
 	{
 		
-		return NULL;
+		return "0";
 	}
 	while (len % 4 != 0)//điều chỉnh chuỗi thành những khối 4 bit
 	{
@@ -34,9 +34,9 @@ string CConvert::strBinToHex(string strBin) {
 			}
 			else
 			{
-				if (strBin[j]!='0')//Nếu khác 0 tức chuỗi chứa nhưng ký tự khác 0 và 1 nên không hợp lệ, trả về NULL
+				if (strBin[j]!='0')//Nếu khác 0 tức chuỗi chứa nhưng ký tự khác 0 và 1 nên không hợp lệ, trả về "0"
 				{
-					return ;
+					return "0";
 				}
 			}
 		}
@@ -113,7 +113,7 @@ string CConvert::strHexToBin(string strHex) {
 			strBin += "1111";
 			break;
 		default:
-			return NULL;
+			return "0";
 			break;
 		}
 	}
@@ -184,20 +184,31 @@ string _Div2_StrDec(string str_src)
 }
 
 string CConvert::strBinToDec(string strBin) {
-	bool Nagative = false;
 	int len = strBin.length();
+	if (len >_INT_128BIT)
+	{
+		return "0";
+	}
+	bool Nagative = false;
 	string strResult = "0";
-	;	if ((strBin[0] == '1') && (len == _INT_128BIT))
+	if ((strBin[0] == '1') && (len == _INT_128BIT))
 	{
 		Nagative = true;
 		strBin = CConvert::strBinTo2Complement(strBin);
 		len = strBin.length();
 	}
+	string strTemp = "1";
+	CConvert::Reserve_Str(strBin);
 	for (int i = 0; i < len; i++)
 	{
+		if (i!=0)
+		{
+			strTemp = _Sum_strDec(strTemp, strTemp);
+		}
 		if (strBin[i] == '1')
 		{
-			strResult = _Sum_strDec(strResult, _2Expn_K(len - 1 - i));
+			
+			strResult = _Sum_strDec(strResult, strTemp);
 		}
 	}
 	if (Nagative)
@@ -211,7 +222,7 @@ string CConvert::strBinToDec(string strBin) {
 string CConvert::strBinTo2Complement(string str_src){
 	if (str_src.length()>128)
 	{
-		return NULL;
+		return "0";
 	}
 	string strResult = "";
 	QInt qNum(str_src);
