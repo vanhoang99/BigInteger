@@ -25,6 +25,15 @@ public:
 
 	static void DelBit0(string &strSrc);
 	static void Reserve_Str(string &str_Src);
+
+
+	//Hàm xoay trái(NEW)
+	static string Rotate_left(const string &strbin);
+	//Hàm xoay phải(NEW)
+	static string Rotate_right(const string &strbin);
+
+
+
 };
 //Chia 2 giá trị của chuỗi  thập phân
 string _Div2_StrDec(string str_src);
