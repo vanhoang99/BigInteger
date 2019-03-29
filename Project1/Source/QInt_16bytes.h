@@ -31,5 +31,8 @@
 		QInt NOT();
 		//Phép cộng 2 số QInt
 		QInt operator+(QInt);
+		QInt operator-(QInt);
+		QInt operator*(QInt);
+		QInt operator/(QInt);
 	};
 	#endif // !__QInt_16bytes_H__

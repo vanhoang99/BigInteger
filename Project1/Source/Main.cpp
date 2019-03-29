@@ -5,10 +5,11 @@
 using namespace std;
 
 int main()
-{
-	cout << CConvert::strDecToBin("123") << endl; // 10 -> 2
-	cout << CConvert::strBinToDec(CConvert::strDecToBin("65484686846684641684846464686")) << endl;
-	//strDecToHec() và strHexToDec() sẻ dụng lại hàm trên nên việc test lại không cần thiểt!!!
+{	
+	//cout << CConvert::strDecToBin("123") << endl; // 10 -> 2
+	//cout << CConvert::strBinToDec((QInt(CConvert::strDecToBin("-100")) - QInt(CConvert::strDecToBin( "50"))).ToString())<<endl;
+	cout<< _Mult_strDec("123456789", "-123456789") << endl;
+	cout<<
 	system("pause");
 	return 0;
 }

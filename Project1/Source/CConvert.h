@@ -30,6 +30,8 @@ public:
 string _Div2_StrDec(string str_src);
 //Cộng 2 chuỗi thập phân
 string _Sum_strDec(string strDec1, string strDec2);
+//Nhân 2 chuỗi thập phân
+string _Mult_strDec(string Dec1, string strDec2);
 //Trả về chuỗi giá trị của 2 lũy thừa K
 string _2Expn_K(int k);
 

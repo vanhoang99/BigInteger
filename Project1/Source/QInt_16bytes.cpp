@@ -46,10 +46,33 @@ QInt QInt::operator+(QInt qNum)
 			}
 			else
 			{
-				arrBitsResult[i] = 0;
-				BitTemp--;
+				if (BitTemp==2)
+				{
+					arrBitsResult[i] = 0;
+					BitTemp--;
+				}
+				else
+				{
+					arrBitsResult[i] = 1;
+					BitTemp = 1;
+				}
 			}
 		}
 	}
 	return QInt((arrBitsResult.to_string()));
+}
+
+QInt QInt::operator-(QInt qNum)
+{
+	bitset<_INT_128BIT> arrBitsResult;
+	qNum = CConvert::strBinTo2Complement(qNum.ToString());
+	return QInt(this->ToString()) + qNum;
+}
+
+
+QInt QInt::operator*(QInt qNum)
+{
+	string strSrc = qNum.ToString();
+	string strResult = _Mult_strDec(strSrc, CConvert::strBinToDec(qNum.ToString()));
+	return QInt(strResult);
 }

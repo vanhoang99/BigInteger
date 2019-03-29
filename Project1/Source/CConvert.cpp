@@ -220,7 +220,8 @@ string CConvert::strBinToDec(string strBin) {
 
 //Chuyễn chuỗi nhị phân sang dạng bù 2
 string CConvert::strBinTo2Complement(string str_src){
-	if (str_src.length()>128)
+	//Vượt quá phạm vi lưu trữ trả về 0
+	if (str_src.length()>_INT_128BIT)
 	{
 		return "0";
 	}
@@ -320,6 +321,71 @@ string _2Expn_K(int k) {
 	for (int i = 0; i < k; i++)
 	{
 		strResult = _Sum_strDec(strResult, strResult);
+	}
+	return strResult;
+}
+
+string _Mult_strDec(string strDec1,string strDec2) {
+	string strResult="0";
+	string strTemp = "";
+	int iTemp = 0;
+	bool ResultIsNagative = false;//Kết quả là một số âm
+	//Xử lý dấu của 2 chuỗi
+	//
+	if (strDec1[0] == '-' &&strDec2[0] == '-')
+	{
+		strDec1.erase(strDec1.begin());
+		strDec2.erase(strDec2.begin());
+	}
+	else
+	{
+		if (strDec1[0] == '-')
+		{
+			strDec1.erase(strDec1.begin());
+			ResultIsNagative = true;
+		}
+		if (strDec2[0] == '-')
+		{
+			strDec2.erase(strDec2.begin());
+			ResultIsNagative = true;
+		}
+	}
+
+	
+	//Lấy độ dài 2 chuỗi số
+	int strLen1 = strDec1.length();
+	int strLen2 = strDec2.length();
+	//Đảo 2 chuỗi số để tiện tính toán
+	CConvert::Reserve_Str(strDec1);
+	CConvert::Reserve_Str(strDec2);
+
+	//2 vòng lặp thực hiện công việc nhân từng hàng đơn vị của strDec2 cho chuỗi strDec1
+	for (int i = 0; i < strLen2; i++)//Xét từng số trong strDec2
+	{
+		strTemp = "";
+		for (int j = 0; j < strLen1; j++)//Xét từng số trong strDec1
+		{
+			iTemp = (strDec1[j] - '0')*(strDec2[i] - '0') + iTemp;
+			strTemp = (char)((iTemp % 10) + '0') + strTemp;
+			iTemp = iTemp/10;
+		}
+		//Nếu biến nhớ tạm khác 0 thì cộng vào đầu kết quả nhân và đặt lại biến nhớ bằng 0 cho lần nhân tiếp theo
+		if (iTemp!=0)
+		{
+			strTemp = (char)(iTemp + '0') + strTemp;
+			iTemp = 0;
+		}
+		//Sau mỗi lần tăng đơn vị nhân của chuỗi 2  thì tăng kết quả nhân lên 1 đơn vị để cộng vào kết quả trước đó
+		for (int k = 0; k < i; k++)
+		{
+			strTemp = strTemp + "0";
+		}
+		//Cộng từng lần nhân chuỗi số strDec1 cho từng đơn vị của strDec2
+		strResult = _Sum_strDec(strResult, strTemp);
+	}
+	if (ResultIsNagative)
+	{
+		strResult = "-" + strResult;
 	}
 	return strResult;
 }
