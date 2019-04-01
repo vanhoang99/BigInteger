@@ -291,6 +291,7 @@ string _Sum_strDec(string strDec1, string strDec2) {
 	int iTemp=0;
 	//Đảo 2 chuỗi số để tiện tính toán
 	CConvert::Reserve_Str(strDec1);
+
 	CConvert::Reserve_Str(strDec2);
 	//thực hiện cộng từng hàng đơn vị từ nhỏ đến lớn
 	for (int i = 0; i < len_max; i++)
@@ -325,67 +326,36 @@ string _2Expn_K(int k) {
 	return strResult;
 }
 
-string _Mult_strDec(string strDec1,string strDec2) {
-	string strResult="0";
-	string strTemp = "";
-	int iTemp = 0;
-	bool ResultIsNagative = false;//Kết quả là một số âm
-	//Xử lý dấu của 2 chuỗi
-	//
-	if (strDec1[0] == '-' &&strDec2[0] == '-')
-	{
-		strDec1.erase(strDec1.begin());
-		strDec2.erase(strDec2.begin());
-	}
-	else
-	{
-		if (strDec1[0] == '-')
-		{
-			strDec1.erase(strDec1.begin());
-			ResultIsNagative = true;
-		}
-		if (strDec2[0] == '-')
-		{
-			strDec2.erase(strDec2.begin());
-			ResultIsNagative = true;
-		}
-	}
 
-	
-	//Lấy độ dài 2 chuỗi số
-	int strLen1 = strDec1.length();
-	int strLen2 = strDec2.length();
-	//Đảo 2 chuỗi số để tiện tính toán
-	CConvert::Reserve_Str(strDec1);
-	CConvert::Reserve_Str(strDec2);
+string CConvert::Rotate_left(const string &strbin)
+{
+	string strResult = strbin; //tạo chuỗi kết quả lưu tại chuỗi truyền vào
+	int size_strbin = strbin.size(); //lấy độ dài chuỗi truyền vào
+	char temp = strResult[0]; //biến temp giữ lại phần tử đầu tiên của chuỗi
 
-	//2 vòng lặp thực hiện công việc nhân từng hàng đơn vị của strDec2 cho chuỗi strDec1
-	for (int i = 0; i < strLen2; i++)//Xét từng số trong strDec2
+	for (int i = 1; i < size_strbin - 1; i++) //vòng for chạy từ phần tử thứ 1 đến phần tử cuối cùng của chuỗi
 	{
-		strTemp = "";
-		for (int j = 0; j < strLen1; j++)//Xét từng số trong strDec1
-		{
-			iTemp = (strDec1[j] - '0')*(strDec2[i] - '0') + iTemp;
-			strTemp = (char)((iTemp % 10) + '0') + strTemp;
-			iTemp = iTemp/10;
-		}
-		//Nếu biến nhớ tạm khác 0 thì cộng vào đầu kết quả nhân và đặt lại biến nhớ bằng 0 cho lần nhân tiếp theo
-		if (iTemp!=0)
-		{
-			strTemp = (char)(iTemp + '0') + strTemp;
-			iTemp = 0;
-		}
-		//Sau mỗi lần tăng đơn vị nhân của chuỗi 2  thì tăng kết quả nhân lên 1 đơn vị để cộng vào kết quả trước đó
-		for (int k = 0; k < i; k++)
-		{
-			strTemp = strTemp + "0";
-		}
-		//Cộng từng lần nhân chuỗi số strDec1 cho từng đơn vị của strDec2
-		strResult = _Sum_strDec(strResult, strTemp);
+		strResult[i] = strResult[i + 1];//dịch bit sang trái. tức gán giá trị ở vị trí trước cho nó. giá tị vị trí 2 cho 1,  giá tị vị trí 3 cho 2, ...
 	}
-	if (ResultIsNagative)
+	//Sau khi kết thúc vòng lặp
+	strResult[size_strbin - 1] = temp; //gán giá trị của biến đầu tiên, tức hiện giờ là biến temp cho phần tử cuối cùng của chuỗi strResult
+	CConvert::DelBit0(strResult); //xóa các bit 0 ở đầu chuỗi
+	return strResult;
+
+}
+
+string CConvert::Rotate_right(const string &strbin)
+{
+	string strResult = strbin; //tạo chuỗi kết quả lưu tại chuỗi truyền vào
+	int size_strbin = strbin.size();//lấy độ dài chuỗi truyền vào
+	char temp = strResult[size_strbin - 1]; //biến temp giữ lại phần tử cuối cùng của chuỗi
+
+	for (int i = size_strbin - 1; i > 0; i--)//vòng for chạy từ phần tử ở vị trí  cuối cùng đến phần tử thứ 1 của chuỗi
 	{
-		strResult = "-" + strResult;
+		strResult[i] = strResult[i - 1]; //dịch bit sang phải. tức gán giá trị ở vị trí sau cho nó.
 	}
+	//Sau khi kết thúc vòng lặp
+	strResult[0] = temp; //gán giá trị của biến cuối cùng, tức hiện giờ là biến temp cho phần tử đầu tiên của chuỗi strResult
+	CConvert::DelBit0(strResult);//xóa các bit 0 ở đầu chuỗi
 	return strResult;
 }
