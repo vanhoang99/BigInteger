@@ -4,8 +4,7 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
-#define _MAXBIT 128
+#define _CRT_SECURE_NO_WARNINGS
 
 class CConvert {
 public:
@@ -19,29 +18,37 @@ public:
 	//Chuyển dổi thâp phân sang thập lục phân và ngược lại
 	static string strDecToHex(string strDec);
 	static string strHexToDex(string strHex);
+
+	static string ConvertAll(string, int, int);
 	//Chuyển chuỗi bit thường sang chuỗi bit bù 2
 	//Nếu truyền vào dãy bit của số 12 thì sẽ trả về chuỗi bit biểu diễn số -12
 	static string strBinTo2Complement(string str_src);
 
+
+	//Chia 2 giá trị của chuỗi  thập phân
+	static string Div2_StrDec(string str_src);
+	//Cộng 2 chuỗi thập phân
+	static string Sum_strDec(string strDec1, string strDec2);
+	//Nhân 2 chuỗi thập phân
+	static string Mult_strDec(string Dec1, string strDec2);
+	//Trả về chuỗi giá trị của 2 lũy thừa K
+	static string _2Expn_K(int k);
+	
+	//Xóa Bit 0 ở đầu dãy nhị phân
 	static void DelBit0(string &strSrc);
+	//Đảo ngược chuỗi nhị phân
 	static void Reserve_Str(string &str_Src);
 
+	//đếm số dấu cách trong chuỗi
+	static int Count_cSpacing(const string&);
+	//Hàm trả về chữ đầu tiên của chuỗi và xóa chữ đó kèm khoảng trắng sau chuỗi đó
+	static string FirstWord(string&);
 
-	//Hàm xoay trái(NEW)
-	static string Rotate_left(const string &strbin);
-	//Hàm xoay phải(NEW)
-	static string Rotate_right(const string &strbin);
-
-
-
+	//Thực hiện các phép toán trên bit
+	//Có 2 hàm tùy vào đối số truyền vào
+	static string Operator(string, int, string);
+	static string Operator(string, string, int, string);
 };
-//Chia 2 giá trị của chuỗi  thập phân
-string _Div2_StrDec(string str_src);
-//Cộng 2 chuỗi thập phân
-string _Sum_strDec(string strDec1, string strDec2);
-//Nhân 2 chuỗi thập phân
-string _Mult_strDec(string Dec1, string strDec2);
-//Trả về chuỗi giá trị của 2 lũy thừa K
-string _2Expn_K(int k);
+
 
 #endif // !__CConvert_H__

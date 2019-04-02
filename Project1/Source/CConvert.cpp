@@ -9,7 +9,7 @@ Kết quả trả về: chuỗi ký tự thập lục phân (string)
 */
 string CConvert::strBinToHex(string strBin) {
 	int len = strBin.length();//Độ dài của chuỗi
-	if (len>_MAXBIT)//Định dạng đầu vào không hợp lệ
+	if (len>_INT_128BIT)//Định dạng đầu vào không hợp lệ
 	{
 		
 		return "0";
@@ -141,7 +141,7 @@ string CConvert::strDecToBin(string strDec)
 		{
 			strResult = "0" + strResult;
 		}
-		strDec = _Div2_StrDec(strDec);
+		strDec = CConvert::Div2_StrDec(strDec);
 		
 	}
 	if (Nagative)
@@ -164,8 +164,9 @@ string CConvert::strHexToDex(string strHex)
 }
 
 //Hàm chia 2 số thập phân ở dạng chuỗi,trả về chuỗi kết quả số nguyên làm tròn xuống
-string _Div2_StrDec(string str_src)
+string CConvert::Div2_StrDec(string str_src)
 {
+	CConvert::DelBit0(str_src);
 	if (str_src == "0"||str_src=="1")
 	{
 		return "0";
@@ -203,12 +204,12 @@ string CConvert::strBinToDec(string strBin) {
 	{
 		if (i!=0)
 		{
-			strTemp = _Sum_strDec(strTemp, strTemp);
+			strTemp = CConvert::Sum_strDec(strTemp, strTemp);
 		}
 		if (strBin[i] == '1')
 		{
 			
-			strResult = _Sum_strDec(strResult, strTemp);
+			strResult = CConvert::Sum_strDec(strResult, strTemp);
 		}
 	}
 	if (Nagative)
@@ -272,7 +273,7 @@ void CConvert::Reserve_Str(string &str_Src){
 	}
 }
 
-string _Sum_strDec(string strDec1, string strDec2) {
+string CConvert::Sum_strDec(string strDec1, string strDec2) {
 
 	string strResult = "";//chuỗi chứa kết quả
 	int len_max = strDec1.length();//khởi tạo độ dài chuỗi lớn nhất tạm thời bằng độ dài chuỗi 1
@@ -317,45 +318,254 @@ string _Sum_strDec(string strDec1, string strDec2) {
 }
 
 //Hàm tính và trả về chuỗi kết quả của 2 lũy thừa k
-string _2Expn_K(int k) {
+string  CConvert::_2Expn_K(int k) {
 	string strResult = "1";
 	for (int i = 0; i < k; i++)
 	{
-		strResult = _Sum_strDec(strResult, strResult);
+		strResult = CConvert::Sum_strDec(strResult, strResult);
 	}
 	return strResult;
 }
 
 
-string CConvert::Rotate_left(const string &strbin)
-{
-	string strResult = strbin; //tạo chuỗi kết quả lưu tại chuỗi truyền vào
-	int size_strbin = strbin.size(); //lấy độ dài chuỗi truyền vào
-	char temp = strResult[0]; //biến temp giữ lại phần tử đầu tiên của chuỗi
-
-	for (int i = 1; i < size_strbin - 1; i++) //vòng for chạy từ phần tử thứ 1 đến phần tử cuối cùng của chuỗi
+string  CConvert::Mult_strDec(string strDec1, string strDec2) {
+	string strResult = "0";
+	string strTemp = "";
+	int iTemp = 0;
+	bool ResultIsNagative = false;//Kết quả là một số âm
+	//Xử lý dấu của 2 chuỗi
+	//
+	if (strDec1[0] == '-' &&strDec2[0] == '-')
 	{
-		strResult[i] = strResult[i + 1];//dịch bit sang trái. tức gán giá trị ở vị trí trước cho nó. giá tị vị trí 2 cho 1,  giá tị vị trí 3 cho 2, ...
+		strDec1.erase(strDec1.begin());
+		strDec2.erase(strDec2.begin());
 	}
-	//Sau khi kết thúc vòng lặp
-	strResult[size_strbin - 1] = temp; //gán giá trị của biến đầu tiên, tức hiện giờ là biến temp cho phần tử cuối cùng của chuỗi strResult
-	CConvert::DelBit0(strResult); //xóa các bit 0 ở đầu chuỗi
-	return strResult;
+	else
+	{
+		if (strDec1[0] == '-')
+		{
+			strDec1.erase(strDec1.begin());
+			ResultIsNagative = true;
+		}
+		if (strDec2[0] == '-')
+		{
+			strDec2.erase(strDec2.begin());
+			ResultIsNagative = true;
+		}
+	}
 
+
+	//Lấy độ dài 2 chuỗi số
+	int strLen1 = strDec1.length();
+	int strLen2 = strDec2.length();
+	//Đảo 2 chuỗi số để tiện tính toán
+	CConvert::Reserve_Str(strDec1);
+	CConvert::Reserve_Str(strDec2);
+
+	//2 vòng lặp thực hiện công việc nhân từng hàng đơn vị của strDec2 cho chuỗi strDec1
+	for (int i = 0; i < strLen2; i++)//Xét từng số trong strDec2
+	{
+		strTemp = "";
+		for (int j = 0; j < strLen1; j++)//Xét từng số trong strDec1
+		{
+			iTemp = (strDec1[j] - '0')*(strDec2[i] - '0') + iTemp;
+			strTemp = (char)((iTemp % 10) + '0') + strTemp;
+			iTemp = iTemp / 10;
+		}
+		//Nếu biến nhớ tạm khác 0 thì cộng vào đầu kết quả nhân và đặt lại biến nhớ bằng 0 cho lần nhân tiếp theo
+		if (iTemp != 0)
+		{
+			strTemp = (char)(iTemp + '0') + strTemp;
+			iTemp = 0;
+		}
+		//Sau mỗi lần tăng đơn vị nhân của chuỗi 2  thì tăng kết quả nhân lên 1 đơn vị để cộng vào kết quả trước đó
+		for (int k = 0; k < i; k++)
+		{
+			strTemp = strTemp + "0";
+		}
+		//Cộng từng lần nhân chuỗi số strDec1 cho từng đơn vị của strDec2
+		strResult = CConvert::Sum_strDec(strResult, strTemp);
+	}
+	if (ResultIsNagative)
+	{
+		strResult = "-" + strResult;
+	}
+	return strResult;
 }
 
-string CConvert::Rotate_right(const string &strbin)
-{
-	string strResult = strbin; //tạo chuỗi kết quả lưu tại chuỗi truyền vào
-	int size_strbin = strbin.size();//lấy độ dài chuỗi truyền vào
-	char temp = strResult[size_strbin - 1]; //biến temp giữ lại phần tử cuối cùng của chuỗi
-
-	for (int i = size_strbin - 1; i > 0; i--)//vòng for chạy từ phần tử ở vị trí  cuối cùng đến phần tử thứ 1 của chuỗi
+int CConvert::Count_cSpacing(const string& strSrc) {
+	int len = strSrc.length();
+	int c = 0;
+	for (int i = 0; i < len; i++)
 	{
-		strResult[i] = strResult[i - 1]; //dịch bit sang phải. tức gán giá trị ở vị trí sau cho nó.
+		if (strSrc[i]==' ')
+		{
+			c++;
+		}
 	}
-	//Sau khi kết thúc vòng lặp
-	strResult[0] = temp; //gán giá trị của biến cuối cùng, tức hiện giờ là biến temp cho phần tử đầu tiên của chuỗi strResult
-	CConvert::DelBit0(strResult);//xóa các bit 0 ở đầu chuỗi
-	return strResult;
+	return c;
+}
+
+string CConvert::ConvertAll(string strSrc, int p1, int p2)
+{
+	if (p1==p2)
+	{
+		return strSrc;
+	}
+	switch (p1)
+	{
+	case 2:
+	{
+		switch (p2)
+		{
+		case 10:
+			return CConvert::strBinToDec(strSrc);
+		case 16:
+			return CConvert::strBinToHex(strSrc);
+		default:
+			return "0";
+		}
+	}
+	case 10:
+		switch (p2)
+		{
+		case 2:
+			return CConvert::strDecToBin(strSrc);
+		case 16:
+			return CConvert::strDecToHex(strSrc);
+		default:
+			return "0";
+		}
+	case 16:
+		switch (p2)
+		{
+		case 2:
+			return CConvert::strHexToBin(strSrc);
+		case 10:
+			return CConvert::strHexToDex(strSrc);
+		default:
+			return "0";
+		}
+	default:
+		return "0";
+	}
+}
+
+string CConvert::FirstWord(string & strSrc) {
+	if (strSrc.length() == 0)
+	{
+		return "";
+	}
+	string strFirstWord = "";
+	while (strSrc[0] != ' ' && strSrc.length() > 0)
+	{
+		strFirstWord = strFirstWord + strSrc[0];
+		strSrc.erase(strSrc.begin());
+	}
+	if (strSrc[0] == ' ')
+	{
+		strSrc.erase(strSrc.begin());
+	}
+	return strFirstWord;
+}
+
+//Hàm thực hiện phép toán Bit 2 đối số: ~,<<,>>
+string CConvert::Operator(string strSrc, int base ,string opt) {
+	
+	QInt qNum;
+	switch (base)
+	{
+	case 2:
+		qNum = QInt(strSrc);
+		break;
+	case 10:
+		qNum=QInt(CConvert::ConvertAll(strSrc,10,2));
+		break;
+	case 16:
+		qNum = QInt(CConvert::ConvertAll(strSrc, 16, 2));
+		break;
+	default:
+		return "";
+	}
+
+	string ListOpt[] = { "~","ror","rol" };
+	
+	int i = 0;
+	for (; i < 5; i++)
+	{
+		if (opt== ListOpt[i])
+		{
+			break;
+		}
+	}
+	
+	switch (i)
+	{
+	case 0:
+		return CConvert::ConvertAll(qNum.NOT().ToString(),2,base);
+	case 1:
+		return CConvert::ConvertAll(qNum.Rotate_right().ToString(), 2, base);
+	case 2:
+		return CConvert::ConvertAll(qNum.Rotate_left().ToString(), 2, base);
+	default:
+		return "";
+	}
+	return "";
+}
+
+string CConvert::Operator(string strSrc1, string strSrc2,int base, string opt) {
+	string ListOpt[] = { "&","|","^","+","-","*","/","<<",">>" };
+
+	QInt qNum1;
+	QInt qNum2;
+	switch (base)
+	{
+	case 2:
+		qNum1 = QInt(strSrc1);
+		qNum2= QInt(strSrc2);
+		break;
+	case 10:
+		qNum1 = QInt(CConvert::ConvertAll(strSrc1, 10, 2));
+		qNum2 = QInt(CConvert::ConvertAll(strSrc2, 10, 2));
+		break;
+	case 16:
+		qNum1 = QInt(CConvert::ConvertAll(strSrc1, 16, 2));
+		qNum2 = QInt(CConvert::ConvertAll(strSrc2, 16, 2));
+		break;
+	default:
+		return "";
+	}
+	
+	int i = 0;
+	for (; i < 9; i++)
+	{
+		if (opt == ListOpt[i])
+		{
+			break;
+		}
+	}
+	switch (i)
+	{
+	case 0:
+		return CConvert::ConvertAll(qNum1.AND(qNum2).ToString(), 2, base);
+	case 1:
+		return CConvert::ConvertAll(qNum1.OR(qNum2).ToString(), 2, base);
+	case 2:
+		return CConvert::ConvertAll(qNum1.XOR(qNum2).ToString(),2,base);
+	case 3:
+		return CConvert::ConvertAll((qNum1 + qNum2).ToString(), 2, base);
+	case 4:
+		return CConvert::ConvertAll((qNum1 - qNum2).ToString(),2,base);
+	case 5:
+		return CConvert::ConvertAll((qNum1 * qNum2).ToString(), 2, base);
+	case 6:
+		return CConvert::ConvertAll((qNum1 / qNum2).ToString(), 2, base);
+	case 7:
+		return CConvert::ConvertAll(qNum1.Shift_Arithmetic_Left(stoi(strSrc2)).ToString(), 2, base);
+	case 8:
+		return CConvert::ConvertAll(qNum1.Shift_Arithmetic_Right(stoi(strSrc2)).ToString(), 2, base);
+	default:
+		return "";
+	}
+	return "";
 }
