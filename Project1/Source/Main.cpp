@@ -7,21 +7,22 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {	
+	
 	//cout << argc << endl;
 	//cout << endl;
 	//for (int i = 0; i < argc; i++)
 	//{
 	//	puts(argv[i]);
 	//}
-	/*if (argc<=2)
+	if (argc<=2)
 	{
 		return 0;
-	}*/
+	}
 	//Nếu nhiều hơn 2 tham số truyền vào
-	/*string fPath_Src = argv[1];
-	string fPath_Res = argv[2];*/
-	string fPath_Src="C:\\Users\\Admin\\Desktop\\BigInteger\\x64\\Release\\input.txt";
-	string fPath_Res = "C:\\Users\\Admin\\Desktop\\BigInteger\\x64\\Release\\out.txt";
+	string fPath_Src = argv[1];
+	string fPath_Res = argv[2];
+	/*string fPath_Src="C:\\Users\\Admin\\Desktop\\BigInteger\\x64\\Release\\input.txt";
+	string fPath_Res = "C:\\Users\\Admin\\Desktop\\BigInteger\\x64\\Release\\out.txt";*/
 
 
 	//Xử lý file
@@ -85,6 +86,7 @@ int main(int argc, char *argv[])
 				strLineRes = "0";
 			}
 		}
+		CConvert::DelBit0(strLineRes);
 		//Xuất vào file kết quả
 		fRes << strLineRes << endl;
 	}

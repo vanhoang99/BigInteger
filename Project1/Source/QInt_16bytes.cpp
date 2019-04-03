@@ -16,7 +16,7 @@ string QInt::ToString()
 {
 	string strResult;
 	strResult = arrBits.to_string();
-	CConvert::DelBit0(strResult);
+	CConvert::DelBit0(strResult); 
 	if (strResult=="")
 	{
 		strResult = "0";
@@ -76,7 +76,7 @@ QInt QInt::operator-(QInt qNum)
 
 QInt QInt::operator*(QInt qNum)
 {
-	string strSrc = CConvert::strBinToDec(qNum.ToString());
+	string strSrc = CConvert::strBinToDec(this->ToString());
 	string strResult =CConvert::strDecToBin(CConvert::Mult_strDec(strSrc, CConvert::strBinToDec(qNum.ToString())));
 	return QInt(strResult);
 }
