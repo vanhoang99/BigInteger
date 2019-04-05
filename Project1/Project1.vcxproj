@@ -115,15 +115,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\CConvert.cpp" />
+    <ClCompile Include="Source\Calculator.cpp" />
+    <ClCompile Include="Source\Convert.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\QInt_16bytes.cpp" />
-    <ClCompile Include="Source\QInt_Duc_Hieu.cpp" />
-    <ClCompile Include="Source\QInt_Minh_Hieu.cpp" />
+    <ClCompile Include="Source\Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\CConvert.h" />
+    <ClInclude Include="Source\Calculator.h" />
+    <ClInclude Include="Source\Convert.h" />
     <ClInclude Include="Source\QInt_16bytes.h" />
+    <ClInclude Include="Source\Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

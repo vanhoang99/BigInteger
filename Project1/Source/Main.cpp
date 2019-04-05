@@ -1,29 +1,25 @@
-﻿#include"QInt_16bytes.h"
-#include"CConvert.h"
+﻿
+#include"QInt_16bytes.h"
+#include"Convert.h"
 #include<fstream>
-
+#include"Calculator.h"
+#include"Utility.h"
 #define _CRT_SECURE_NO_WARNINGS
 using namespace std;
 
 int main(int argc, char *argv[])
-{	
-	
-	//cout << argc << endl;
-	//cout << endl;
-	//for (int i = 0; i < argc; i++)
-	//{
-	//	puts(argv[i]);
-	//}
-	if (argc<=2)
-	{
+{
+	//Đảm bảo đủ 2 tham số truyền vào để thực hiện chương trình
+	if (argc<=2){
+		cout << "Khong du tham so de chay chuong trinh!" << endl;
 		return 0;
 	}
-	//Nếu nhiều hơn 2 tham số truyền vào
+	
+	//Khởi tạo 2 chuỗi:
+	//fPath_Src: đường dẫn tới file đề
+	//fPath_Res: đường dẫn tới file kết quả
 	string fPath_Src = argv[1];
 	string fPath_Res = argv[2];
-	/*string fPath_Src="C:\\Users\\Admin\\Desktop\\BigInteger\\x64\\Release\\input.txt";
-	string fPath_Res = "C:\\Users\\Admin\\Desktop\\BigInteger\\x64\\Release\\out.txt";*/
-
 
 	//Xử lý file
 	fstream fSrc, fRes;
@@ -52,21 +48,21 @@ int main(int argc, char *argv[])
 
 		//Bắt đầu xử lý khoảng trắng
 		int numOfSpacing;
-		numOfSpacing=CConvert::Count_cSpacing(strLineFile);//Đếm số dấu cách của chuỗi
+		numOfSpacing= CUtility::Count_cSpacing(strLineFile);//Đếm số dấu cách của chuỗi
 		if (numOfSpacing == 2)//Trường hợp 2 khoảng trắng
 		{
 			//Lấy 2 chỉ thi p1 và p2
 			string Temp = strLineFile;
-			string p1 = CConvert::FirstWord(Temp);
-			string p2 = CConvert::FirstWord(Temp);
-			string strNum1 = CConvert::FirstWord(Temp);
+			string p1 = CUtility::FirstWord(Temp);
+			string p2 = CUtility::FirstWord(Temp);
+			string strNum1 = CUtility::FirstWord(Temp);
 			if (p2[0]>'0'&& p2[0]<'9')//Xét trường hợp chỉ thị p2 bắt đầu là một số nguyên tức là lệnh chuyển đổi hệ (convert)
 			{
 				strLineRes =CConvert::ConvertAll(strNum1, stoi(p1), stoi(p2));
 			}
 			else//Các phép tính ~, rol, ror
 			{
-				strLineRes = CConvert::Operator(strNum1, stoi(p1), p2);
+				strLineRes = CCalculator::Operator(strNum1, stoi(p1), p2);
 			}
 		}
 		else//Xử lý trưởng hợp còn lại
@@ -75,18 +71,18 @@ int main(int argc, char *argv[])
 			if (numOfSpacing == 3)//Các phép tính +, -, *, /, &, ^, |, <<, >>
 			{
 				string Temp = strLineFile;
-				string p1 = CConvert::FirstWord(Temp);
-				string strNum1 = CConvert::FirstWord(Temp);
-				string p2 = CConvert::FirstWord(Temp);
-				string strNum2 = CConvert::FirstWord(Temp);
-				strLineRes = CConvert::Operator(strNum1, strNum2 ,stoi(p1), p2);
+				string p1 = CUtility::FirstWord(Temp);
+				string strNum1 = CUtility::FirstWord(Temp);
+				string p2 = CUtility::FirstWord(Temp);
+				string strNum2 = CUtility::FirstWord(Temp);
+				strLineRes = CCalculator::Operator(strNum1, strNum2 ,stoi(p1), p2);
 			}
 			else//Trường hợp không đọc được đinh dạng
 			{
 				strLineRes = "0";
 			}
 		}
-		CConvert::DelBit0(strLineRes);
+		CUtility::DelBit0(strLineRes);
 		//Xuất vào file kết quả
 		fRes << strLineRes << endl;
 	}

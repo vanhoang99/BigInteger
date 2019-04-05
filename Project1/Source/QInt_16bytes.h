@@ -6,7 +6,7 @@
 	using namespace std;
 
 	#define _INT_128BIT 128
-	#define _CRT_SECURE_NO_WARNINGS
+
 	/*
 	Lớp Qint: Biểu diễn số nguyên với độ lớn 16 bytes(128 bit).
 	Được lưu trữ dưới dạng số nhị phân bù 2, các bit được lưu trong mảng bitset<128> chiếm đúng 128bit của bộ nhớ
@@ -23,25 +23,26 @@
 	private:
 		bitset<_INT_128BIT> arrBits;
 	public:
+		//Hàm khỏi tạo
 		QInt() {};
 		QInt(string strBin);
 
 		//chuyển dãy bit thành chuỗi
 		string ToString();
-		//Đổi ngược tất cả các bit
 		
-		//Phép cộng 2 số QInt
+		//Quá tải 4 phép tính cơ bản
 		QInt operator+(QInt);
 		QInt operator-(QInt);
 		QInt operator*(QInt);
 		QInt operator/(QInt);
 
-		QInt Rotate_left();
-		QInt Rotate_right();
+		//---Các phép toán trên Bit---
 		QInt NOT();
 		QInt AND(QInt Qnum);
 		QInt OR(QInt Qnum);
 		QInt XOR(QInt Qnum);
+		QInt Rotate_left();
+		QInt Rotate_right();
 		QInt Shift_Arithmetic_Right(int n);
 		QInt Shift_Arithmetic_Left(int n);
 	};

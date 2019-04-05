@@ -1,7 +1,10 @@
 ﻿#include"QInt_16bytes.h"
-#include"CConvert.h"
+#include"Convert.h"
+#include"Calculator.h"
+#include"Utility.h"
+//Khỏi tạo giá trị với chuỗi nhị phân truyền vào
 QInt::QInt(string strBin){
-	CConvert::Reserve_Str(strBin);
+	CUtility::Reserve_Str(strBin);
 	int len = strBin.length();
 	for (int i = 0; i < len; i++)
 	{
@@ -12,11 +15,12 @@ QInt::QInt(string strBin){
 	}
 }
 
+//Hàm trả về chuỗi nhị phân của số
 string QInt::ToString()
 {
 	string strResult;
 	strResult = arrBits.to_string();
-	CConvert::DelBit0(strResult); 
+	CUtility::DelBit0(strResult);
 	if (strResult=="")
 	{
 		strResult = "0";
@@ -24,12 +28,14 @@ string QInt::ToString()
 	return strResult;
 }
 
+//Hàm Not 
 QInt QInt::NOT(){
 	QInt Result(ToString());
 	Result.arrBits.flip();
 	return Result;
 }
 
+//Hàm quá tải phép cộng 2 số kiểu QInt
 QInt QInt::operator+(QInt qNum) 
 {
 	bitset<_INT_128BIT> arrBitsResult;
@@ -66,6 +72,7 @@ QInt QInt::operator+(QInt qNum)
 	return QInt((arrBitsResult.to_string()));
 }
 
+//Hàm quá tải phép trừ 2 số kiểu QInt
 QInt QInt::operator-(QInt qNum)
 {
 	bitset<_INT_128BIT> arrBitsResult;
@@ -73,14 +80,14 @@ QInt QInt::operator-(QInt qNum)
 	return QInt(this->ToString()) + qNum;
 }
 
-
+//Hàm quá tải phép nhân 2 số kiểu QInt
 QInt QInt::operator*(QInt qNum)
 {
 	string strSrc = CConvert::strBinToDec(this->ToString());
-	string strResult =CConvert::strDecToBin(CConvert::Mult_strDec(strSrc, CConvert::strBinToDec(qNum.ToString())));
+	string strResult =CConvert::strDecToBin(CCalculator::Mult_strDec(strSrc, CConvert::strBinToDec(qNum.ToString())));
 	return QInt(strResult);
 }
-
+//Hàm quá tải phép chia 2 số kiểu QInt
 QInt QInt::operator/(QInt qNum) {
 	/*
 	Khởi tạo: A = n bit 0 nếu Q > 0; A = n bit 1 nếu Q < 0; k = n
@@ -150,4 +157,126 @@ QInt QInt::operator/(QInt qNum) {
 		return QInt(CConvert::strBinTo2Complement(Q.to_string()));
 	}
 	return QInt(Q.to_string());
+}
+
+//=====AND===
+QInt QInt::AND(QInt Qnum) {
+
+	bitset<_INT_128BIT> arrBitsResult;
+	for (int i = 0; i < _INT_128BIT; i++) {
+
+		arrBitsResult[i] = Qnum.arrBits[i] * arrBits[i];
+	}
+	return QInt(arrBitsResult.to_string());
+}
+//======OR=====
+QInt QInt::OR(QInt Qnum) {
+	bitset<_INT_128BIT> arrBitsResult;
+	for (int i = 0; i < _INT_128BIT; i++) {
+		arrBitsResult[i] = Qnum.arrBits[i] + arrBits[i];
+		if (Qnum.arrBits[i] == 1 && arrBits[i] == 1) {
+			arrBitsResult[i] = 1;
+		}
+	}
+	return QInt(arrBitsResult.to_string());
+}
+//========XOR=====
+QInt QInt::XOR(QInt Qnum) {
+
+	bitset<_INT_128BIT> arrBitsResult;
+
+	for (int i = 0; i < _INT_128BIT; i++) {
+		if (Qnum.arrBits[i] == arrBits[i]) {
+			arrBitsResult[i] = 0;
+		}
+		else {
+			arrBitsResult[i] = 1;
+		}
+	}
+
+	return QInt(arrBitsResult.to_string());
+}
+
+//=====dich phai so hoc====
+//Vẫn giữ lại dấu của số
+QInt QInt::Shift_Arithmetic_Right(int n) {
+	bitset<_INT_128BIT> arrBitsResult=arrBits;
+	int bitSign = arrBits[_INT_128BIT - 1];
+	//Nếu là số âm
+	if (bitSign==1)
+	{
+		bitset<_INT_128BIT> T(CConvert::strBinTo2Complement(arrBitsResult.to_string()));
+		arrBitsResult = T;
+	}
+	/*for (int T = 0; T < n; T++)
+	{ 
+		for (int i = 0; i <= _INT_128BIT - 3; i++) {
+			arrBitsResult[i] = arrBitsResult[i + 1];
+		}
+		arrBitsResult[_INT_128BIT - 2] = 0;
+	}
+	*/
+	arrBitsResult = arrBitsResult >> (n);
+	if (bitSign == 1)
+	{
+		bitset<_INT_128BIT> T(CConvert::strBinTo2Complement(arrBitsResult.to_string()));
+		arrBitsResult = T;
+	}
+	//cout << CConvert::strBinToDec(arrBitsResult.to_string()) << endl;
+	return QInt(arrBitsResult.to_string());
+}
+
+//=====dich trai so hoc====
+QInt QInt::Shift_Arithmetic_Left(int n) {
+	bitset<_INT_128BIT> arrBitsResult = arrBits;
+	int bitSign = arrBits[_INT_128BIT - 1];
+	//Nếu là số âm
+	if (bitSign == 1)
+	{
+		bitset<_INT_128BIT> T(CConvert::strBinTo2Complement(arrBitsResult.to_string()));
+		arrBitsResult = T;
+	}
+	/*for (int T = 0; T < n; T++)
+	{
+		for (int i = _INT_128BIT - 2; i >= 1; i--) {
+			arrBitsResult[i] = arrBitsResult[i - 1];
+		}
+		arrBitsResult[0] = 0;
+	}*/
+	
+	arrBitsResult = arrBitsResult << (n);
+	
+	if (bitSign == 1)
+	{
+		arrBitsResult[_INT_128BIT - 1] = 0;
+		bitset<_INT_128BIT> T(CConvert::strBinTo2Complement(arrBitsResult.to_string()));
+		arrBitsResult = T;
+	}
+	return QInt(arrBitsResult.to_string());
+}
+
+//Phép xoay phải
+QInt QInt::Rotate_right()
+{
+	bitset<_INT_128BIT> arrBitResult(this->ToString()); //tạo chuỗi kết quả lưu tại chuỗi truyền vào
+	char temp = arrBitResult[0]; //biến temp giữ lại phần tử cuối cùng của chuỗi
+	for (int i = 0; i <= _INT_128BIT - 2; i++)//vòng for chạy từ phần tử ở vị trí  cuối cùng đến phần tử thứ 1 của chuỗi
+	{
+		arrBitResult[i] = arrBitResult[i + 1]; //dịch bit sang phải. tức gán giá trị ở vị trí sau cho nó.
+	}
+	arrBitResult[_INT_128BIT - 1] = temp; //gán giá trị của biến cuối cùng, tức hiện giờ là biến temp cho phần tử đầu tiên của chuỗi strResult
+	return QInt(arrBitResult.to_string());
+}
+
+//Phép xoay trái
+QInt QInt::Rotate_left()
+{
+	bitset<_INT_128BIT> arrBitResult(this->ToString()); //tạo chuỗi kết quả lưu tại chuỗi truyền vào
+	char temp = arrBitResult[_INT_128BIT - 1]; //biến temp giữ lại phần tử cuối cùng của chuỗi
+	for (int i = _INT_128BIT - 1; i >= 1; i--)//vòng for chạy từ phần tử ở vị trí  cuối cùng đến phần tử thứ 1 của chuỗi
+	{
+		arrBitResult[i] = arrBitResult[i - 1]; //dịch bit sang phải. tức gán giá trị ở vị trí sau cho nó.
+	}
+	arrBitResult[0] = temp; //gán giá trị của biến cuối cùng, tức hiện giờ là biến temp cho phần tử đầu tiên của chuỗi strResult
+	return QInt(arrBitResult.to_string());
 }
