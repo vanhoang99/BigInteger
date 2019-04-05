@@ -81,7 +81,6 @@ string CCalculator::Operator(string strSrc1, string strSrc2, int base, string op
 			break;
 		}
 	}
-	cout << qNum1.ToString() << endl;
 	switch (i)
 	{
 	case 0:
